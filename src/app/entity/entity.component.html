@@ -1,0 +1,73 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Entities</h2>
+        <button class="btn btn-primary" (click)="showCreateForm()">Add New Entity</button>
+    </div>
+
+    <!-- Create Form -->
+    <div class="card mb-4" *ngIf="showForm">
+        <div class="card-body">
+            <h5 class="card-title">Create New Entity</h5>
+            <div class="mb-3">
+                <label for="entityId" class="form-label">ID</label>
+                <input type="text" class="form-control" id="entityId" [(ngModel)]="newEntityId">
+            </div>
+            <div class="mb-3">
+                <label for="entityName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="entityName" [(ngModel)]="newEntity.name">
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-success" (click)="createEntity()">Save</button>
+                <button class="btn btn-secondary" (click)="showForm = false">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Entities Table -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let entity of entities">
+                    <td>{{formatId(entity.id)}}</td>
+                    <td>
+                        <ng-container *ngIf="!entity.editing">
+                            {{entity.name}}
+                        </ng-container>
+                        <input *ngIf="entity.editing" type="text" class="form-control" [(ngModel)]="entity.name">
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <ng-container *ngIf="!entity.editing">
+                                <button class="btn btn-sm btn-primary me-2" (click)="startEdit(entity)">
+                                    Edit
+                                </button>
+                                <button class="btn btn-sm btn-danger" (click)="deleteEntity(entity)">
+                                    Delete
+                                </button>
+                            </ng-container>
+                            <ng-container *ngIf="entity.editing">
+                                <button class="btn btn-sm btn-success me-2"
+                                    (click)="updateEntity(entity); entity.editing = false">
+                                    Save
+                                </button>
+                                <button class="btn btn-sm btn-secondary" (click)="cancelEdit(entity)">
+                                    Cancel
+                                </button>
+                            </ng-container>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="entities.length === 0">
+                    <td colspan="3" class="text-center">No entities found</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
