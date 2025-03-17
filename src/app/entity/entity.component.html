@@ -1,27 +1,5 @@
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Entities</h2>
-        <button class="btn btn-primary" (click)="showCreateForm()">Add New Entity</button>
-    </div>
-
-    <!-- Create Form -->
-    <div class="card mb-4" *ngIf="showForm">
-        <div class="card-body">
-            <h5 class="card-title">Create New Entity</h5>
-            <div class="mb-3">
-                <label for="entityId" class="form-label">ID</label>
-                <input type="text" class="form-control" id="entityId" [(ngModel)]="newEntityId">
-            </div>
-            <div class="mb-3">
-                <label for="entityName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="entityName" [(ngModel)]="newEntity.name">
-            </div>
-            <div class="d-flex gap-2">
-                <button class="btn btn-success" (click)="createEntity()">Save</button>
-                <button class="btn btn-secondary" (click)="showForm = false">Cancel</button>
-            </div>
-        </div>
-    </div>
+    <app-entity-creation (entityCreated)="loadEntities()"></app-entity-creation>
 
     <!-- Entities Table -->
     <div class="table-responsive">

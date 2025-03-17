@@ -1,21 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Entity, recordId, EntityInput } from '../model/entity';
+import { Entity, recordId } from '../model/entity';
 import { EntityService } from '../services/entity.service';
+import { EntityCreationComponent } from '../entity-creation/entity-creation.component';
 
 @Component({
   selector: 'app-entity',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, EntityCreationComponent],
   templateUrl: './entity.component.html',
   styleUrl: './entity.component.css'
 })
 export class EntityListComponent implements OnInit {
   entities: (Entity & { editing?: boolean })[] = [];
-  showForm = false;
-  newEntity: EntityInput = { name: '' };
-  newEntityId: string = '';
 
   constructor(private entityService: EntityService) { }
 
@@ -43,25 +41,6 @@ export class EntityListComponent implements OnInit {
     }
 
     return '';
-  }
-
-  showCreateForm() {
-    this.showForm = true;
-    this.newEntity = { name: '' };
-    this.newEntityId = '';
-  }
-
-  createEntity() {
-    // Create a new object with the expected format for the backend
-    const entityForBackend: EntityInput = {
-      id: this.newEntityId || undefined,  // Only include if provided, otherwise backend will generate one
-      name: this.newEntity.name
-    };
-
-    this.entityService.createEntity(entityForBackend).subscribe(() => {
-      this.loadEntities();
-      this.showForm = false;
-    });
   }
 
   startEdit(entity: Entity & { editing?: boolean }) {
