@@ -14,6 +14,6 @@ export interface recordId {
     tb: string;
     id: {
         String: string;
-    } | string;
+    };
 }
 
